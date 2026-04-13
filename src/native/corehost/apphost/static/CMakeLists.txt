@@ -172,9 +172,11 @@ else()
             list(APPEND NATIVE_LIBS System.Security.Cryptography.Native.OpenSsl-Static)
         endif()
     else()
-        list(APPEND NATIVE_LIBS
-            System.Security.Cryptography.Native.Android-Static
-        )
+        if (FORCE_ANDROID_OPENSSL)
+            list(APPEND NATIVE_LIBS System.Security.Cryptography.Native.OpenSsl-Static)
+        else()
+            list(APPEND NATIVE_LIBS System.Security.Cryptography.Native.Android-Static)
+        endif()
     endif()
 
     list(APPEND NATIVE_LIBS
