@@ -15,9 +15,10 @@
   <PropertyGroup>
     <TargetPlatformIdentifier>$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)'))</TargetPlatformIdentifier>
     <GeneratePlatformNotSupportedAssemblyMessage Condition="'$(TargetPlatformIdentifier)' == ''">SR.SystemSecurityCryptography_PlatformNotSupported</GeneratePlatformNotSupportedAssemblyMessage>
-    <UseAndroidCrypto Condition="'$(TargetPlatformIdentifier)' == 'android'">true</UseAndroidCrypto>
+    <UseAndroidCrypto Condition="'$(TargetPlatformIdentifier)' == 'android' and '$(ForceOpenSslOnAndroid)' != 'true'">true</UseAndroidCrypto>
     <UseAppleCrypto Condition="'$(TargetPlatformIdentifier)' == 'osx' or '$(TargetPlatformIdentifier)' == 'ios' or '$(TargetPlatformIdentifier)' == 'tvos'">true</UseAppleCrypto>
-    <UseOpenSsl Condition="'$(TargetPlatformIdentifier)' == 'unix'">true</UseOpenSsl>
+    <UseOpenSsl Condition="'$(TargetPlatformIdentifier)' == 'unix' or ('$(TargetPlatformIdentifier)' == 'android' and '$(ForceOpenSslOnAndroid)' == 'true')">true</UseOpenSsl>
+    <NoWarn Condition="'$(TargetPlatformIdentifier)' == 'android' and '$(ForceOpenSslOnAndroid)' == 'true'">$(NoWarn);CA1416</NoWarn>
     <DefineConstants Condition="'$(Configuration)' == 'Debug'">$(DefineConstants);DESIGNTIMEINTERFACES</DefineConstants>
   </PropertyGroup>
 
